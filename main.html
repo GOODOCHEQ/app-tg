@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 60px; /* Добавляем дополнительное пространство внизу для кнопок */
+        }
+        .menu {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            background-color: #f0f0f0;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .menu button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .menu button:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Модальное окно */
+        .modal {
+            display: none; /* Скрыть по умолчанию */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            margin: 5% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 400px; /* Уменьшаем максимальную ширину для лучшей адаптации на мобильных устройствах */
+            background-color: #fefefe;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        .btn-ok {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn-ok:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <img src="example.jpg" alt="Example Image" style="max-width: 100%; height: auto;">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam gravida justo sed fringilla.</p>
+    </div>
+</div>
+
+<div class="menu">
+    <button onclick="openMenuModal()">Меню</button>
+    <button onclick="openInfoModal()">Время работы и контакты</button>
+    <button onclick="openReservationModal()">Забронировать стол</button>
+    <button onclick="openLoyaltyProgramModal()">Программа лояльности</button>
+    <button onclick="openReviewModal()">Оставить отзыв</button>
+</div>
+
+<!-- Модальное окно для меню -->
+<div id="menuModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeMenuModal()">&times;</span>
+    <img src="menu1.jpg" alt="Menu 1" style="max-width: 100%;">
+    <img src="menu2.jpg" alt="Menu 2" style="max-width: 100%;">
+    <!-- Добавьте другие изображения меню по мере необходимости -->
+  </div>
+</div>
+
+<!-- Модальное окно для времени работы и контактов -->
+<div id="infoModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeInfoModal()">&times;</span>
+    <img src="map.jpg" alt="Map" style="max-width: 100%;">
+    <p>Время работы: Пн-Пт 9:00-18:00<br>
+    Телефон: +7 (123) 456-7890<br>
+    Email: example@example.com</p>
+  </div>
+</div>
+
+<!-- Модальное окно для бронирования стола -->
+<div id="reservationModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeReservationModal()">&times;</span>
+    <h2>Забронировать стол</h2>
+    <form id="reservationForm" onsubmit="submitReservation(event)">
+        <label for="phone">Номер телефона:</label><br>
+        <input type="text" id="phone" name="phone" required><br>
+        <label for="guests">Количество гостей:</label><br>
+        <input type="number" id="guests" name="guests" required><br>
+        <label for="date">Дата:</label><br>
+        <input type="date" id="date" name="date" required><br>
+        <label for="time">Время:</label><br>
+        <input type="time" id="time" name="time" required><br><br>
+        <input type="submit" value="Забронировать">
+    </form>
+  </div>
+</div>
+
+<!-- Модальное окно для программы лояльности -->
+<div id="loyaltyProgramModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeLoyaltyProgramModal()">&times;</span>
+    <h2>Программа лояльности</h2>
+    <p>Присоединяйтесь к нашей программе лояльности для получения скидок и специальных предложений!</p>
+    <a href="registration.html">Зарегистрироваться</a>
+  </div>
+</div>
+
+<!-- Модальное окно для оставления отзыва -->
+<div id="reviewModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeReviewModal()">&times;</span>
+    <h2>Оставить отзыв</h2>
+    <p>Вы можете оставить отзыв на одном из следующих ресурсов:</p>
+    <a href="https://www.google.com/">Google Reviews</a><br>
+    <a href="https://www.yelp.com/">Yelp</a>
+  </div>
+</div>
+
+<script>
+    function openMenuModal() {
+        document.getElementById('menuModal').style.display = 'block';
+    }
+
+    function closeMenuModal() {
+        document.getElementById('menuModal').style.display = 'none';
+    }
+
+    function openInfoModal() {
+        document.getElementById('infoModal').style.display = 'block';
+    }
+
+    function closeInfoModal() {
+        document.getElementById('infoModal').style.display = 'none';
+    }
+
+    function openReservationModal() {
+        document.getElementById('reservationModal').style.display = 'block';
+    }
+
+    function closeReservationModal() {
+        document.getElementById('reservationModal').style.display = 'none';
+    }
+
+    function submitReservation(event) {
+        event.preventDefault();
+
+        var phone = document.getElementById('phone').value;
+        var guests = document.getElementById('guests').value;
+        var date = document.getElementById('date').value;
+        var time = document.getElementById('time').value;
+
+        var message = "Ждем вас " + date + " в " + time + ". Номер телефона: " + phone + ", количество гостей: " + guests + ".";
+        
+        closeReservationModal();
+
+        document.getElementById('confirmationDetails').innerText = message;
+        document.getElementById('confirmationModal').style.display = 'block';
+    }
+
+    function closeConfirmationModal() {
+        document.getElementById('confirmationModal').style.display = 'none';
+    }
+
+    function openLoyaltyProgramModal() {
+        document.getElementById('loyaltyProgramModal').style.display = 'block';
+    }
+
+    function closeLoyaltyProgramModal() {
+        document.getElementById('loyaltyProgramModal').style.display = 'none';
+    }
+
+    function openReviewModal() {
+        document.getElementById('reviewModal').style.display = 'block';
+    }
+
+    function closeReviewModal() {
+        document.getElementById('reviewModal').style.display = 'none';
+    }
+</script>
+<script src="app.js"></script>
+
+</body>
+</html>
