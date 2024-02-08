@@ -55,26 +55,31 @@
         
         /* Модальное окно */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
 
-        .modal-content {
-            margin: 20% auto; /* Отступ сверху 20%, чтобы контент был по центру */
-            padding: 20px;
-            width: 80%;
-            max-width: 400px;
-            background-color: #fefefe;
-            border-radius: 5px;
-            text-align: center;
-        }
+.modal-content {
+    margin: 20% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 400px;
+    background-color: #fefefe;
+    border-radius: 5px;
+    text-align: center;
+    position: absolute; /* Изменение позиции на абсолютную */
+    left: 50%; /* Размещение в середине горизонтально */
+    top: 50%; /* Размещение в середине вертикально */
+    transform: translate(-50%, -50%); /* Перемещение влево и вверх на 50% от размеров элемента */
+}
+
 
         .close {
             color: #aaa;
