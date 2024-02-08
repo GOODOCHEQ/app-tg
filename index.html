@@ -1,21 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Web App</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
+            color: var(--tg-theme-text-color);
+            background: var(--tg-theme-bg-color);
         }
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-bottom: 60px; /* Добавляем дополнительное пространство внизу для кнопок */
+            padding-bottom: 60px;
+        }
+        .content img {
+            width: 350px;
+            margin: 0 auto;
+        }
+        .content p {
+            width: 350px;
+            margin: 0 auto;
         }
         .menu {
             display: flex;
@@ -23,13 +33,13 @@
             width: 100%;
             position: fixed;
             bottom: 0;
-            background-color: #f0f0f0;
+            background-color: var(--tg-theme-bg-color);
             padding: 10px 0;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         }
         .menu button {
-            background-color: #3498db;
-            color: white;
+            background-color: var(--tg-theme-button-text-color);
+            color: var(--tg-theme-button-color);
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
@@ -37,12 +47,12 @@
             transition: background-color 0.3s ease;
         }
         .menu button:hover {
-            background-color: #2980b9;
+            background-color: var(--tg-theme-secondary-bg-color);
         }
         
         /* Модальное окно */
         .modal {
-            display: none; /* Скрыть по умолчанию */
+            display: none;
             position: fixed;
             z-index: 1;
             left: 0;
@@ -57,7 +67,7 @@
             margin: 5% auto;
             padding: 20px;
             width: 80%;
-            max-width: 400px; /* Уменьшаем максимальную ширину для лучшей адаптации на мобильных устройствах */
+            max-width: 400px;
             background-color: #fefefe;
             border-radius: 5px;
             text-align: center;
@@ -96,7 +106,7 @@
 
 <div class="container">
     <div class="content">
-        <img src="example.jpg" alt="Example Image" style="max-width: 100%; height: auto;">
+        <img src="example.jpg" alt="Example Image">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam gravida justo sed fringilla.</p>
     </div>
 </div>
@@ -231,7 +241,8 @@
         document.getElementById('reviewModal').style.display = 'none';
     }
 </script>
-<script src="app.js"></script>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 </body>
 </html>
