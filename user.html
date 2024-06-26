@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebApp</title>
+    <link rel="stylesheet" href="user.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top__block">
+            <div class="app__logo">
+                <img src="img/logo.jpg" alt="Logo">
+            </div>
+            <div class="app__name">GhostGuardVPN</div>
+        </div>
+    </div>
+    <div class="gif">
+        <img src="img/emojibest_com_AnimatedSticker.gif" alt="GIF">
+    </div>
+    <div class="checkout__size">
+        <h1>Готово к подключению</h1>
+        <p>Загрузите приложение перед подключением, на ПК после нажатия на "Подключиться" откройте приложение Outline.</p>
+    </div>
+    <div class="server-info">
+        <div class="server-name" id="serverName">Selected Server: </div>
+    </div>
+    <div class="button-container">
+        <button class="tariff-button" id="connectButton">Подключиться</button>
+        <div class="empty-block"></div>
+        <div class="dropdown">
+            <button class="tariff-button" id="dropdownButton">&#8595; Скачать приложение</button>
+            <div class="dropdown-content">
+                <a href="https://apps.apple.com/ru/app/outline-app/id1356177741" class="download-link" data-os="ios" target="_blank">
+                    <img src="ios-icon.png">
+                    <span>iOS</span>
+                </a>
+                <a href="https://apps.apple.com/ru/app/outline-secure-internet-access/id1356178125?mt=12" class="download-link" data-os="macos" target="_blank">
+                    <img src="macos-icon.png">
+                    <span>macOS</span>
+                </a>
+                <a href="https://s3.amazonaws.com/outline-releases/client/windows/stable/Outline-Client.exe" class="download-link" data-os="windows" target="_blank">
+                    <img src="windows-icon.png">
+                    <span>Windows</span>
+                </a>
+                <a href="https://s3.amazonaws.com/outline-releases/client/linux/stable/Outline-Client.AppImage" class="download-link" data-os="linux" target="_blank">
+                    <img src="linux-icon.png">
+                    <span>Linux</span>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=org.outline.android.client" class="download-link" data-os="android" target="_blank">
+                    <img src="android-icon.png">
+                    <span>Android</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modalText">Ссылка на сервер:</p>
+            <a id="serverLink" href="#" target="_blank">Подключить сервер</a>
+        </div>
+    </div>
+
+    <script>
+        // Открывает или закрывает выпадающее меню
+        function toggleDropdown() {
+            var dropdownContent = document.querySelector('.dropdown-content');
+            dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // При загрузке документа добавляем слушатель события клика на кнопку "Скачать приложение"
+        document.addEventListener('DOMContentLoaded', function() {
+            var dropdownButton = document.getElementById('dropdownButton');
+            dropdownButton.addEventListener('click', toggleDropdown);
+
+            // Отображаем данные сервера из localStorage или сообщение об отсутствии данных
+            var selectedServer = localStorage.getItem('selectedServer');
+            var accessUrl = localStorage.getItem('accessUrl');
+            var serverNameElement = document.getElementById('serverName');
+            var serverLinkElement = document.getElementById('serverLink');
+
+            if (selectedServer) {
+                serverNameElement.textContent = 'Selected Server: ' + selectedServer;
+            } else {
+                serverNameElement.textContent = 'Selected Server: Данные не найдены';
+            }
+
+            if (accessUrl) {
+                serverLinkElement.href = accessUrl;
+            } else {
+                serverLinkElement.textContent = 'Ссылка не найдена';
+                serverLinkElement.href = '#';
+            }
+
+            // Закрытие модального окна
+            var modal = document.getElementById('myModal');
+            var closeBtn = document.getElementsByClassName('close')[0];
+            closeBtn.onclick = function() {
+                modal.style.display = 'none';
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+
+            // Добавляем обработчик события для кнопки "Подключиться"
+            document.getElementById('connectButton').addEventListener('click', function() {
+                if (accessUrl) {
+                    window.location.href = accessUrl;
+                } else {
+                    alert('Ссылка не найдена');
+                }
+            });
+        });
+
+        // Добавляем обработчик события клика вне выпадающего меню для его закрытия
+        document.addEventListener('click', function(event) {
+            var dropdownContent = document.querySelector('.dropdown-content');
+            var dropdownButton = document.getElementById('dropdownButton');
+
+            if (event.target !== dropdownButton && !dropdownContent.contains(event.target)) {
+                dropdownContent.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

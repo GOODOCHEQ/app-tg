@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Success</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<div class="success-container">
+  <div class="center-block">
+    <div class="gif">
+      <img src="img/emojibest_com_AnimatedSticker.gif" alt="GIF">
+    </div>
+    <div class="success-text">
+      <h1>Оплата прошла успешно!</h1>
+      <p>Спасибо за покупку. Ваш VPN теперь активен.</p>
+      <button class="home-button" id="accessButton">Получить доступ</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+  // Функция для запуска конфетти
+  function launchConfetti() {
+    var duration = 2 * 1000;
+    var end = Date.now() + duration;
+
+    (function frame() {
+      confetti({
+        particleCount: 3,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 }
+      });
+      confetti({
+        particleCount: 3,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 }
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    }());
+  }
+
+  // Запуск конфетти при загрузке страницы
+  window.onload = function() {
+    launchConfetti();
+    
+    // Получение данных из локального хранилища
+    const storedData = localStorage.getItem('vpnData');
+    if (storedData) {
+      const vpnData = JSON.parse(storedData);
+      console.log('Данные из локального хранилища:', vpnData);
+    }
+
+    // Обработчик нажатия кнопки "Получить доступ"
+    document.getElementById('accessButton').addEventListener('click', function() {
+      const storedData = localStorage.getItem('vpnData');
+      if (storedData) {
+        const vpnData = JSON.parse(storedData);
+        // Отправка данных в бот Telegram
+        window.Telegram.WebApp.sendData(JSON.stringify(vpnData));
+      }
+    });
+
+    // Ожидание ответа от бота
+    window.Telegram.WebApp.onEvent('mainButtonClicked', function() {
+      // Здесь вы можете обработать ответ от бота
+      console.log('Получен ответ от бота');
+    });
+  };
+</script>
+
+</body>
+</html>
