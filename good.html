@@ -57,14 +57,12 @@
     const selectedServer = localStorage.getItem('selectedServer');
     const selectedPlan = localStorage.getItem('selectedPlan');
     const selectedPayment = localStorage.getItem('selectedPayment');
-    const userId = localStorage.getItem('userid');
 
-    if (selectedServer && selectedPlan && selectedPayment && userId) {
+    if (selectedServer && selectedPlan && selectedPayment) {
       const vpnData = {
         selectedServer: selectedServer,
         selectedPlan: selectedPlan,
-        selectedPayment: selectedPayment,
-        userId: userId
+        selectedPayment: selectedPayment
       };
       console.log('Данные из локального хранилища:', vpnData);
 
