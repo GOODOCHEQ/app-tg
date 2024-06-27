@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,12 +54,14 @@
     launchConfetti();
     
     // Получение данных из локального хранилища
+    const userId = localStorage.getItem('user_id');
     const selectedServer = localStorage.getItem('selectedServer');
     const selectedPlan = localStorage.getItem('selectedPlan');
     const selectedPayment = localStorage.getItem('selectedPayment');
 
-    if (selectedServer && selectedPlan && selectedPayment) {
+    if (userId && selectedServer && selectedPlan && selectedPayment) {
       const vpnData = {
+        userId: userId,
         selectedServer: selectedServer,
         selectedPlan: selectedPlan,
         selectedPayment: selectedPayment
