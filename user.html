@@ -113,6 +113,7 @@
             // Отображаем данные сервера из localStorage или сообщение об отсутствии данных
             var selectedServer = localStorage.getItem('selectedServer');
             var accessUrl = localStorage.getItem('accessUrl');
+            var userId = localStorage.getItem('userid');
             var serverNameElement = document.getElementById('serverName');
             var serverLinkElement = document.getElementById('serverLink');
 
@@ -128,6 +129,8 @@
                 serverLinkElement.textContent = 'Ссылка не найдена';
                 serverLinkElement.href = '#';
             }
+
+            console.log('User ID:', userId);
 
             // Закрытие модального окна
             var modal = document.getElementById('myModal');
