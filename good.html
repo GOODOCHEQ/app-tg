@@ -70,23 +70,27 @@
 
       document.getElementById('accessButton').addEventListener('click', function() {
         console.log('Кнопка "Получить доступ" нажата');
-        console.log('Отправка данных в бот Telegram:', vpnData);
-        // Проверка наличия библиотеки Telegram Web App
-        if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.sendData === 'function') {
-          window.Telegram.WebApp.sendData(JSON.stringify(vpnData));
-        } else {
-          console.error('Telegram Web App не загружена');
-        }
+        console.log('Отправка данных на сервер:', vpnData);
+        
+        // Отправка данных на сервер Flask
+        fetch('http://127.0.0.1:5000/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(vpnData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Ответ сервера:', data);
+        })
+        .catch(error => {
+          console.error('Ошибка:', error);
+        });
       });
     } else {
       console.error('Некоторые данные отсутствуют в локальном хранилище');
     }
-
-    // Ожидание ответа от бота
-    window.Telegram.WebApp.onEvent('mainButtonClicked', function() {
-      // Здесь вы можете обработать ответ от бота
-      console.log('Получен ответ от бота');
-    });
   };
 </script>
 
