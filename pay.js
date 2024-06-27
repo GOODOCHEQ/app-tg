@@ -81,6 +81,22 @@ nextButton.addEventListener('click', () => {
             const selectedPayment = selectedPaymentOption.querySelector('.name').textContent;
             localStorage.setItem('selectedPayment', selectedPayment);
 
+            // Проверяем, сохранены ли все данные
+            if (!localStorage.getItem('selectedServer')) {
+                alert('Selected Server не найден в localStorage');
+                return;
+            }
+
+            if (!localStorage.getItem('selectedPlan')) {
+                alert('Selected Plan не найден в localStorage');
+                return;
+            }
+
+            if (!localStorage.getItem('selectedPayment')) {
+                alert('Selected Payment не найден в localStorage');
+                return;
+            }
+
             // Переход к следующему шагу
             planBlock.style.display = 'none';
             paymentBlock.style.display = 'none'; // Скрыть блок с выбором способа оплаты
