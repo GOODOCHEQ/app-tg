@@ -73,7 +73,7 @@
       console.log('Отправка данных на сервер:', vpnData);
 
       // Отправка данных на сервер Flask
-      fetch('https://195.2.85.139:5000/submit', {
+      fetch('http://195.2.85.139:5000/submit', {  // Используем HTTP вместо HTTPS
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
