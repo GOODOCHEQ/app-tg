@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Success</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
@@ -24,7 +23,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 <script>
-  // Функция для запуска конфетти
   function launchConfetti() {
     var duration = 2 * 1000;
     var end = Date.now() + duration;
@@ -49,48 +47,56 @@
     }());
   }
 
-  // Запуск конфетти при загрузке страницы
   window.onload = function() {
     launchConfetti();
-    
-    // Получение данных из локального хранилища
-    const userId = localStorage.getItem('user_id');
-    const selectedServer = localStorage.getItem('selectedServer');
-    const selectedPlan = localStorage.getItem('selectedPlan');
-    const selectedPayment = localStorage.getItem('selectedPayment');
 
-    if (userId && selectedServer && selectedPlan && selectedPayment) {
-      const vpnData = {
-        userId: userId,
-        selectedServer: selectedServer,
-        selectedPlan: selectedPlan,
-        selectedPayment: selectedPayment
-      };
-      console.log('Данные из локального хранилища:', vpnData);
+    let userId = localStorage.getItem('user_id') || 0;
+    let selectedServer = localStorage.getItem('selectedServer') || 0;
+    let selectedPlan = localStorage.getItem('selectedPlan') || 0;
+    let selectedPayment = localStorage.getItem('selectedPayment') || 0;
 
-      document.getElementById('accessButton').addEventListener('click', function() {
-        console.log('Кнопка "Получить доступ" нажата');
-        console.log('Отправка данных на сервер:', vpnData);
-        
-        // Отправка данных на сервер Flask
-        fetch('http://127.0.0.1:5000/submit', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(vpnData)
-        })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Ответ сервера:', data);
-        })
-        .catch(error => {
-          console.error('Ошибка:', error);
-        });
+    const vpnData = {
+      userId: userId,
+      selectedServer: selectedServer,
+      selectedPlan: selectedPlan,
+      selectedPayment: selectedPayment
+    };
+
+    // Проверка наличия данных и вывод в консоль
+    console.log('user_id:', userId);
+    console.log('selectedServer:', selectedServer);
+    console.log('selectedPlan:', selectedPlan);
+    console.log('selectedPayment:', selectedPayment);
+
+    document.getElementById('accessButton').addEventListener('click', function() {
+      console.log('Кнопка "Получить доступ" нажата');
+      console.log('Отправка данных на сервер:', vpnData);
+
+      // Отправка данных на сервер Flask
+      fetch('http://192.168.1.127:5000/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(vpnData)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Сетевая ошибка.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Ответ сервера:', data);
+        if (data.key) {
+          localStorage.setItem('accessUrl', data.key);
+          window.location.href = 'user.html';
+        }
+      })
+      .catch(error => {
+        console.error('Ошибка:', error);
       });
-    } else {
-      console.error('Некоторые данные отсутствуют в локальном хранилище');
-    }
+    });
   };
 </script>
 
