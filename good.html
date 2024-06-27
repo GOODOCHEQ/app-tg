@@ -54,21 +54,33 @@
     launchConfetti();
     
     // Получение данных из локального хранилища
-    const storedData = localStorage.getItem('vpnData');
-    if (storedData) {
-      const vpnData = JSON.parse(storedData);
-      console.log('Данные из локального хранилища:', vpnData);
-    }
+    const selectedServer = localStorage.getItem('selectedServer');
+    const selectedPlan = localStorage.getItem('selectedPlan');
+    const selectedPayment = localStorage.getItem('selectedPayment');
+    const userId = localStorage.getItem('userid');
 
-    // Обработчик нажатия кнопки "Получить доступ"
-    document.getElementById('accessButton').addEventListener('click', function() {
-      const storedData = localStorage.getItem('vpnData');
-      if (storedData) {
-        const vpnData = JSON.parse(storedData);
-        // Отправка данных в бот Telegram
-        window.Telegram.WebApp.sendData(JSON.stringify(vpnData));
-      }
-    });
+    if (selectedServer && selectedPlan && selectedPayment && userId) {
+      const vpnData = {
+        selectedServer: selectedServer,
+        selectedPlan: selectedPlan,
+        selectedPayment: selectedPayment,
+        userId: userId
+      };
+      console.log('Данные из локального хранилища:', vpnData);
+
+      document.getElementById('accessButton').addEventListener('click', function() {
+        console.log('Кнопка "Получить доступ" нажата');
+        console.log('Отправка данных в бот Telegram:', vpnData);
+        // Проверка наличия библиотеки Telegram Web App
+        if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.sendData === 'function') {
+          window.Telegram.WebApp.sendData(JSON.stringify(vpnData));
+        } else {
+          console.error('Telegram Web App не загружена');
+        }
+      });
+    } else {
+      console.error('Некоторые данные отсутствуют в локальном хранилище');
+    }
 
     // Ожидание ответа от бота
     window.Telegram.WebApp.onEvent('mainButtonClicked', function() {
