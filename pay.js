@@ -1,3 +1,25 @@
+document.getElementById("serverBtn").addEventListener("click", function() {
+  // Получаем выбранный сервер
+  var selectedServer = document.getElementById("serverSelect").value;
+  
+  // Сохраняем выбранный сервер в localStorage
+  localStorage.setItem("selectedServer", selectedServer);
+  
+  // Перенаправляем пользователя на страницу pay.html
+  window.location.href = "pay.html";
+});
+
+document.addEventListener('click', function(event) {
+  var dropdown = document.querySelector('.dropdown'); // Обращаемся к классу, не идентификатору
+  var dropdownContent = document.getElementById('dropdownContent');
+
+  // Если клик был вне выпадающего окна, то закрываем его
+  if (!dropdown.contains(event.target)) {
+    dropdownContent.style.display = 'none';
+  }
+});
+
+
 // Получаем все элементы с классом "plan"
 const plans = document.querySelectorAll('.plan');
 const selectedServer = document.querySelector('.selected-server');
