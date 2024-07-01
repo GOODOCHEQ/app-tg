@@ -73,7 +73,7 @@
       console.log('Отправка данных на сервер:', vpnData);
 
       // Отправка данных на сервер Flask
-      fetch('https://ghostguardvpn.online/submit', {  // Используем HTTPS
+      fetch('http://192.168.1.117:5000/submit', {  // Используем HTTPS
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
