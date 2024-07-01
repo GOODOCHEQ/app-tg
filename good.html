@@ -14,8 +14,8 @@
       <img src="img/emojibest_com_AnimatedSticker.gif" alt="GIF">
     </div>
     <div class="success-text">
-      <h1>Оплата прошла успешно!</h1>
-      <p>Спасибо за покупку. Ваш VPN теперь активен.</p>
+      <h1>Готово!</h1>
+      <p>VPN готов к подключению, благодарим за ваш выбор.</p>
       <button class="home-button" id="accessButton">Получить доступ</button>
     </div>
   </div>
@@ -73,7 +73,7 @@
       console.log('Отправка данных на сервер:', vpnData);
 
       // Отправка данных на сервер Flask
-      fetch('http://195.2.85.139:5000/submit', {  // Используем HTTP вместо HTTPS
+      fetch('https://ghostguardvpn.online/submit', {  // Используем HTTPS и домен
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
