@@ -40,21 +40,21 @@
             cursor: pointer;
         }
         .tariff-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    margin: 5px 15px; /* Делаем отступ слева и справа равным */
-    width: calc(100% - 30px); /* Уменьшаем ширину на 30px */
-    box-sizing: border-box;
-}
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 5px 15px; /* Делаем отступ слева и справа равным */
+            width: calc(100% - 30px); /* Уменьшаем ширину на 30px */
+            box-sizing: border-box;
+        }
         .tariff-button:hover {
             background-color: #0056b3;
         }
@@ -92,9 +92,6 @@
         <h1>Готово к подключению</h1>
         <p>Загрузите приложение перед подключением, на ПК после нажатия на "Подключиться" откройте приложение Outline.</p>
     </div>
-    <div class="server-info">
-        <div class="server-name" id="serverName">Selected Server: </div>
-    </div>
     <div class="button-container">
         <a id="connectLink" class="tariff-button" href="#" target="_blank">Подключиться</a>
         <div class="empty-block"></div>
@@ -123,6 +120,7 @@
                 </a>
             </div>
         </div>
+        <button class="tariff-button" id="copyKeyButton">Скопировать ключ</button>
     </div>
 
     <div id="myModal" class="modal">
@@ -140,23 +138,33 @@
             dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
         }
 
+        // Копирует ключ в буфер обмена
+        function copyKeyToClipboard() {
+            var accessUrl = localStorage.getItem('accessUrl');
+            if (accessUrl) {
+                navigator.clipboard.writeText(accessUrl).then(function() {
+                    alert('Ключ скопирован в буфер обмена');
+                }, function(err) {
+                    console.error('Не удалось скопировать ключ: ', err);
+                });
+            } else {
+                alert('Ключ не найден');
+            }
+        }
+
         // При загрузке документа добавляем слушатель события клика на кнопку "Скачать приложение"
         document.addEventListener('DOMContentLoaded', function() {
             var dropdownButton = document.getElementById('dropdownButton');
             dropdownButton.addEventListener('click', toggleDropdown);
 
+            var copyKeyButton = document.getElementById('copyKeyButton');
+            copyKeyButton.addEventListener('click', copyKeyToClipboard);
+
             // Отображаем данные сервера из localStorage или сообщение об отсутствии данных
             var selectedServer = localStorage.getItem('selectedServer');
             var accessUrl = localStorage.getItem('accessUrl');
-            var serverNameElement = document.getElementById('serverName');
             var connectLinkElement = document.getElementById('connectLink');
             var serverLinkElement = document.getElementById('serverLink');
-
-            if (selectedServer) {
-                serverNameElement.textContent = 'Selected Server: ' + selectedServer;
-            } else {
-                serverNameElement.textContent = 'Selected Server: Данные не найдены';
-            }
 
             if (accessUrl) {
                 console.log("Access URL found: " + accessUrl);
