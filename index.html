@@ -45,10 +45,12 @@
     // Получаем user_id из URL
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('user_id');
+    console.log('URL userId:', userId);
 
     // Сохраняем user_id в localStorage
     if (userId) {
       localStorage.setItem('user_id', userId);
+      console.log('UserId сохранен в localStorage:', userId);
 
       // Отправляем запрос на сервер для проверки user_id
       fetch('https://ghostguardvpn.online:5001/check_user', {
@@ -60,6 +62,7 @@
       })
       .then(response => response.json())
       .then(data => {
+        console.log('Ответ сервера:', data);
         if (data.exists) {
           if (data.hasKey) {
             window.location.href = 'user.html';
@@ -91,11 +94,13 @@
 
   document.addEventListener('click', function(event) {
     var dropdown = document.querySelector('.dropdown'); // Обращаемся к классу, не идентификатору
-    var dropdownContent = document.getElementById('dropdownContent');
+    if (dropdown) { // Проверяем, существует ли элемент
+      var dropdownContent = document.getElementById('dropdownContent');
 
-    // Если клик был вне выпадающего окна, то закрываем его
-    if (!dropdown.contains(event.target)) {
-      dropdownContent.style.display = 'none';
+      // Если клик был вне выпадающего окна, то закрываем его
+      if (!dropdown.contains(event.target) && dropdownContent) {
+        dropdownContent.style.display = 'none';
+      }
     }
   });
 </script>
