@@ -238,8 +238,8 @@
                     return response.json();
                 })
                 .then(data => {
+                    console.log('Response from server:', data);  // Log server response
                     if (data.exists) {
-                        console.log('Вы уже воспользовались бесплатным периодом');
                         alert('Вы уже воспользовались бесплатным периодом');
                     } else {
                         window.location.href = 'good.html';
@@ -247,11 +247,11 @@
                 })
                 .catch(error => {
                     console.error('Ошибка:', error);
-                    window.location.href = 'good.html';
+                    alert('Произошла ошибка. Пожалуйста, попробуйте еще раз.');
                 });
             } else {
                 console.error('user_id не найден в localStorage');
-                window.location.href = 'good.html';
+                alert('Произошла ошибка. Пожалуйста, попробуйте еще раз.');
             }
         });
     </script>
