@@ -162,6 +162,9 @@
             if (currentStep === 0) {
                 if (selectedPlan === '5 дней' && userExists) {
                     notification.style.display = 'block';
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 5000);
                     return;
                 } else if (selectedPlan === '5 дней') {
                     planBlock.style.display = 'none';
