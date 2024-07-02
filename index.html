@@ -51,7 +51,7 @@
       localStorage.setItem('user_id', userId);
 
       // Отправляем запрос на сервер для проверки user_id
-      fetch('http://192.168.0.27:5001/check_user', {
+      fetch('https://ghostguardvpn.online:5001/check_user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
