@@ -159,9 +159,11 @@
             }
 
             if (accessUrl) {
+                console.log("Access URL found: " + accessUrl);
                 serverLinkElement.href = accessUrl;
                 connectLinkElement.href = accessUrl;
             } else {
+                console.log("Access URL not found");
                 serverLinkElement.textContent = 'Ссылка не найдена';
                 serverLinkElement.href = '#';
                 connectLinkElement.href = '#';
