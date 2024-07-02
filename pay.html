@@ -12,6 +12,11 @@
             opacity: 0.5;
             pointer-events: none;
         }
+        .notification {
+            display: none;
+            color: red;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -86,6 +91,7 @@
             <div class="badge">-50%</div>
         </div>
     </div>
+    <div class="notification" id="notification">Вы уже воспользовались бесплатным доступом.</div>
     <div class="payment-block" style="display: none;">
         <div class="payment-options">
             <div class="payment-option" data-payment="Банковская карта">
@@ -135,7 +141,7 @@
         const subscriptionTitle = document.getElementById('subscriptionTitle');
         const selectedOptions = document.querySelector('.selected-options');
         const userExists = localStorage.getItem('user_exists') === 'true';
-        const userHasKey = localStorage.getItem('user_has_key') === 'true';
+        const notification = document.getElementById('notification');
 
         let currentStep = 0;
 
@@ -154,8 +160,8 @@
         nextButton.addEventListener('click', () => {
             const selectedPlan = localStorage.getItem('selectedPlan');
             if (currentStep === 0) {
-                if (selectedPlan === '5 дней' && userExists && userHasKey) {
-                    alert('Вы уже воспользовались бесплатным доступом.');
+                if (selectedPlan === '5 дней' && userExists) {
+                    notification.style.display = 'block';
                     return;
                 } else if (selectedPlan === '5 дней') {
                     planBlock.style.display = 'none';
