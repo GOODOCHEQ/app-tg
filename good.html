@@ -73,23 +73,23 @@
       console.log('Кнопка "Получить доступ" нажата');
       console.log('Отправка данных на сервер:', vpnData);
 
-      // Отправка данных на сервер Flask с использованием jQuery AJAX
-      $.ajax({
-        url: 'https://ghostguardvpn.online/submit',  // Замените на ваш домен
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(vpnData),
-        success: function(response) {
-          console.log('Ответ сервера:', response);
-          if (response.key) {
-            localStorage.setItem('accessUrl', response.key);
-            window.location.href = 'user.html';
-          }
+      // Отправка данных на прокси-сервер
+      fetch('https://ghostguardvpn.online:5001/proxy/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
         },
-        error: function(xhr, status, error) {
-          console.error('Ошибка:', error);
+        body: JSON.stringify(vpnData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Ответ сервера:', data);
+        if (data.key) {
+          localStorage.setItem('accessUrl', data.key);
+          window.location.href = 'user.html';
         }
-      });
+      })
+      .catch(error => console.error('Ошибка:', error));
     });
   };
 </script>
