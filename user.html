@@ -162,6 +162,12 @@
                 console.log("Access URL found: " + accessUrl);
                 serverLinkElement.href = accessUrl;
                 connectLinkElement.href = accessUrl;
+
+                // Добавим проверку открытия ссылки
+                connectLinkElement.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    window.open(accessUrl, '_blank');
+                });
             } else {
                 console.log("Access URL not found");
                 serverLinkElement.textContent = 'Ссылка не найдена';
