@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,6 +40,64 @@
   <button id="serverBtn" class="tariff-button">Перейти к выбору тарифа</button>
 </div>
 
-<script src="index.js"></script>
+<script>
+  window.onload = function() {
+    // Получаем user_id из URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('user_id');
+
+    // Сохраняем user_id в localStorage
+    if (userId) {
+      localStorage.setItem('user_id', userId);
+
+      // Отправляем запрос на сервер для проверки user_id
+      fetch('http://192.168.0.27:5000/check_user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId: userId })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.exists) {
+          if (data.hasKey) {
+            window.location.href = 'user.html';
+          } else {
+            console.log('User ID найден, но ключ отсутствует.');
+          }
+        } else {
+          console.log('User ID не найден в базе данных.');
+        }
+      })
+      .catch(error => {
+        console.error('Ошибка проверки user_id:', error);
+      });
+    } else {
+      console.error('User ID не найден в URL.');
+    }
+  };
+
+  document.getElementById("serverBtn").addEventListener("click", function() {
+    // Получаем выбранный сервер
+    var selectedServer = document.getElementById("serverSelect").value;
+
+    // Сохраняем выбранный сервер в localStorage
+    localStorage.setItem("selectedServer", selectedServer);
+
+    // Перенаправляем пользователя на страницу pay.html
+    window.location.href = "pay.html";
+  });
+
+  document.addEventListener('click', function(event) {
+    var dropdown = document.querySelector('.dropdown'); // Обращаемся к классу, не идентификатору
+    var dropdownContent = document.getElementById('dropdownContent');
+
+    // Если клик был вне выпадающего окна, то закрываем его
+    if (!dropdown.contains(event.target)) {
+      dropdownContent.style.display = 'none';
+    }
+  });
+</script>
 </body>
 </html>
