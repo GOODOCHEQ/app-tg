@@ -114,6 +114,7 @@
             var selectedServer = localStorage.getItem('selectedServer');
             var accessUrl = localStorage.getItem('accessUrl');
             var serverNameElement = document.getElementById('serverName');
+            var connectButtonElement = document.getElementById('connectButton');
             var serverLinkElement = document.getElementById('serverLink');
 
             if (selectedServer) {
@@ -124,6 +125,7 @@
 
             if (accessUrl) {
                 serverLinkElement.href = accessUrl;
+                connectButtonElement.textContent = accessUrl;
             } else {
                 serverLinkElement.textContent = 'Ссылка не найдена';
                 serverLinkElement.href = '#';
@@ -142,7 +144,7 @@
             }
 
             // Добавляем обработчик события для кнопки "Подключиться"
-            document.getElementById('connectButton').addEventListener('click', function() {
+            connectButtonElement.addEventListener('click', function() {
                 if (accessUrl) {
                     window.location.href = accessUrl;
                 } else {
