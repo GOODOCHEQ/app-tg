@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Success</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -73,15 +72,20 @@
       console.log('Кнопка "Получить доступ" нажата');
       console.log('Отправка данных на сервер:', vpnData);
 
-      // Отправка данных на прокси-сервер
-      fetch('https://ghostguardvpn.online:5001/proxy/submit', {
+      // Отправка данных на сервер Flask
+      fetch('http://ghostguardvpn.online:5000/submit', {  // Замените на ваш IP адрес
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(vpnData)
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Сетевая ошибка.');
+        }
+        return response.json();
+      })
       .then(data => {
         console.log('Ответ сервера:', data);
         if (data.key) {
@@ -89,7 +93,9 @@
           window.location.href = 'user.html';
         }
       })
-      .catch(error => console.error('Ошибка:', error));
+      .catch(error => {
+        console.error('Ошибка:', error);
+      });
     });
   };
 </script>
