@@ -39,6 +39,41 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .tariff-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 5px;
+            width: calc(100% - 30px);
+            box-sizing: border-box;
+        }
+        .tariff-button:hover {
+            background-color: #0056b3;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
     </style>
 </head>
 <body>
@@ -61,7 +96,7 @@
         <div class="server-name" id="serverName">Selected Server: </div>
     </div>
     <div class="button-container">
-        <button class="tariff-button" id="connectButton">Подключиться</button>
+        <a id="connectLink" class="tariff-button" href="#" target="_blank">Подключиться</a>
         <div class="empty-block"></div>
         <div class="dropdown">
             <button class="tariff-button" id="dropdownButton">&#8595; Скачать приложение</button>
@@ -97,7 +132,8 @@
             <a id="serverLink" href="#" target="_blank">Подключить сервер</a>
         </div>
     </div>
-<script>
+
+    <script>
         // Открывает или закрывает выпадающее меню
         function toggleDropdown() {
             var dropdownContent = document.querySelector('.dropdown-content');
@@ -113,6 +149,7 @@
             var selectedServer = localStorage.getItem('selectedServer');
             var accessUrl = localStorage.getItem('accessUrl');
             var serverNameElement = document.getElementById('serverName');
+            var connectLinkElement = document.getElementById('connectLink');
             var serverLinkElement = document.getElementById('serverLink');
 
             if (selectedServer) {
@@ -123,9 +160,11 @@
 
             if (accessUrl) {
                 serverLinkElement.href = accessUrl;
+                connectLinkElement.href = accessUrl;
             } else {
                 serverLinkElement.textContent = 'Ссылка не найдена';
                 serverLinkElement.href = '#';
+                connectLinkElement.href = '#';
             }
 
             // Закрытие модального окна
@@ -139,15 +178,6 @@
                     modal.style.display = 'none';
                 }
             }
-
-            // Добавляем обработчик события для кнопки "Подключиться"
-            document.getElementById('connectButton').addEventListener('click', function() {
-                if (accessUrl) {
-                    window.location.href = accessUrl;
-                } else {
-                    alert('Ссылка не найдена');
-                }
-            });
         });
 
         // Добавляем обработчик события клика вне выпадающего меню для его закрытия
