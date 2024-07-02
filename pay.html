@@ -101,7 +101,7 @@
                     <i class="far fa-circle"></i>
                 </div>
                 <div class="details">
-                    <div class="name">TON (Soon)</div>
+                    <div class="name">TON (Скоро)</div>
                 </div>
             </div>
             <div class="payment-option disabled" data-payment="USDT">
@@ -109,7 +109,7 @@
                     <i class="far fa-circle"></i>
                 </div>
                 <div class="details">
-                    <div class="name">USDT (Soon)</div>
+                    <div class="name">USDT (Скоро)</div>
                 </div>
             </div>
         </div>
@@ -134,6 +134,8 @@
         const sendDataBtn = document.querySelector('.send-data-btn');
         const subscriptionTitle = document.getElementById('subscriptionTitle');
         const selectedOptions = document.querySelector('.selected-options');
+        const userExists = localStorage.getItem('user_exists') === 'true';
+        const userHasKey = localStorage.getItem('user_has_key') === 'true';
 
         let currentStep = 0;
 
@@ -152,7 +154,10 @@
         nextButton.addEventListener('click', () => {
             const selectedPlan = localStorage.getItem('selectedPlan');
             if (currentStep === 0) {
-                if (selectedPlan === '5 дней') {
+                if (selectedPlan === '5 дней' && userExists && userHasKey) {
+                    alert('Вы уже воспользовались бесплатным доступом.');
+                    return;
+                } else if (selectedPlan === '5 дней') {
                     planBlock.style.display = 'none';
                     paymentBlock.style.display = 'none';
                     selectedServer.textContent = 'Выбранный сервер: ' + localStorage.getItem('selectedServer');
@@ -222,37 +227,7 @@
         });
 
         sendDataBtn.addEventListener('click', () => {
-            const userId = localStorage.getItem('user_id');
-            if (userId) {
-                fetch('http://192.168.0.27:5000/check_user', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ userId: userId })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.exists) {
-                        console.log('Вы уже воспользовались бесплатным периодом');
-                        alert('Вы уже воспользовались бесплатным периодом');
-                    } else {
-                        window.location.href = 'good.html';
-                    }
-                })
-                .catch(error => {
-                    console.error('Ошибка:', error);
-                    window.location.href = 'good.html';
-                });
-            } else {
-                console.error('user_id не найден в localStorage');
-                window.location.href = 'good.html';
-            }
+            window.location.href = 'good.html';
         });
     </script>
 </body>
