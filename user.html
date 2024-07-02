@@ -41,7 +41,6 @@
         }
         .tariff-button {
             display: inline-block;
-            width: calc(100% - 6px); /* Adjusting width to account for the margin */
             padding: 10px 20px;
             font-size: 16px;
             font-weight: bold;
@@ -52,7 +51,7 @@
             text-align: center;
             text-decoration: none;
             cursor: pointer;
-            margin: 5px 0 0 0; /* Top margin only */
+            margin: 5px;
         }
         .tariff-button:hover {
             background-color: #0056b3;
@@ -72,12 +71,6 @@
         }
         .dropdown-content a:hover {
             background-color: #f1f1f1;
-        }
-        .button-container {
-            margin: 5px; /* Adding margin to button container to account for space between buttons */
-        }
-        .button-container a {
-            margin-bottom: 3px; /* Adding margin to the bottom of each button to separate them */
         }
     </style>
 </head>
@@ -102,28 +95,31 @@
     </div>
     <div class="button-container">
         <a id="connectLink" class="tariff-button" href="#" target="_blank">Подключиться</a>
-        <button class="tariff-button" id="dropdownButton">&#8595; Скачать приложение</button>
-        <div class="dropdown-content">
-            <a href="https://apps.apple.com/ru/app/outline-app/id1356177741" class="download-link" data-os="ios" target="_blank">
-                <img src="ios-icon.png">
-                <span>iOS</span>
-            </a>
-            <a href="https://apps.apple.com/ru/app/outline-secure-internet-access/id1356178125?mt=12" class="download-link" data-os="macos" target="_blank">
-                <img src="macos-icon.png">
-                <span>macOS</span>
-            </a>
-            <a href="https://s3.amazonaws.com/outline-releases/client/windows/stable/Outline-Client.exe" class="download-link" data-os="windows" target="_blank">
-                <img src="windows-icon.png">
-                <span>Windows</span>
-            </a>
-            <a href="https://s3.amazonaws.com/outline-releases/client/linux/stable/Outline-Client.AppImage" class="download-link" data-os="linux" target="_blank">
-                <img src="linux-icon.png">
-                <span>Linux</span>
-            </a>
-            <a href="https://play.google.com/store/apps/details?id=org.outline.android.client" class="download-link" data-os="android" target="_blank">
-                <img src="android-icon.png">
-                <span>Android</span>
-            </a>
+        <div class="empty-block"></div>
+        <div class="dropdown">
+            <button class="tariff-button" id="dropdownButton">&#8595; Скачать приложение</button>
+            <div class="dropdown-content">
+                <a href="https://apps.apple.com/ru/app/outline-app/id1356177741" class="download-link" data-os="ios" target="_blank">
+                    <img src="ios-icon.png">
+                    <span>iOS</span>
+                </a>
+                <a href="https://apps.apple.com/ru/app/outline-secure-internet-access/id1356178125?mt=12" class="download-link" data-os="macos" target="_blank">
+                    <img src="macos-icon.png">
+                    <span>macOS</span>
+                </a>
+                <a href="https://s3.amazonaws.com/outline-releases/client/windows/stable/Outline-Client.exe" class="download-link" data-os="windows" target="_blank">
+                    <img src="windows-icon.png">
+                    <span>Windows</span>
+                </a>
+                <a href="https://s3.amazonaws.com/outline-releases/client/linux/stable/Outline-Client.AppImage" class="download-link" data-os="linux" target="_blank">
+                    <img src="linux-icon.png">
+                    <span>Linux</span>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=org.outline.android.client" class="download-link" data-os="android" target="_blank">
+                    <img src="android-icon.png">
+                    <span>Android</span>
+                </a>
+            </div>
         </div>
     </div>
 
