@@ -125,6 +125,17 @@
     </div>
 
     <script>
+        window.onload = function() {
+            const userExists = localStorage.getItem('user_exists') === 'true';
+
+            if (userExists) {
+                alert('Вы уже воспользовались бесплатным периодом');
+                return; // Выход из функции, чтобы не отображать выбор тарифа
+            }
+
+            // Продолжение загрузки страницы, если user_id не найден или ключ отсутствует
+        };
+
         const plans = document.querySelectorAll('.plan');
         const selectedServer = document.querySelector('.selected-server');
         const nextButton = document.getElementById('nextButton');
@@ -224,12 +235,18 @@
         sendDataBtn.addEventListener('click', () => {
             const userId = localStorage.getItem('user_id');
             if (userId) {
-                fetch('http://ghostguardvpn.online:5001/check_user', {
+                fetch('http://ghostguardvpn.online:5001/submit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ userId: userId })
+                    body: JSON.stringify({
+                        userId: userId,
+                        username: localStorage.getItem('username'),
+                        selectedPlan: localStorage.getItem('selectedPlan'),
+                        selectedPayment: localStorage.getItem('selectedPayment'),
+                        selectedServer: localStorage.getItem('selectedServer')
+                    })
                 })
                 .then(response => {
                     if (!response.ok) {
@@ -239,10 +256,10 @@
                 })
                 .then(data => {
                     console.log('Response from server:', data);  // Log server response
-                    if (data.exists) {
-                        alert('Вы уже воспользовались бесплатным периодом');
-                    } else {
+                    if (data.status === 'success') {
                         window.location.href = 'good.html';
+                    } else {
+                        alert('Ошибка при обработке данных. Пожалуйста, попробуйте еще раз.');
                     }
                 })
                 .catch(error => {
