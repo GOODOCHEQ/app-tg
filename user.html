@@ -61,7 +61,7 @@
         <div class="server-name" id="serverName">Selected Server: </div>
     </div>
     <div class="button-container">
-        <button class="tariff-button" id="connectButton">Подключиться</button>
+        <a id="connectLink" class="tariff-button" href="#" target="_blank">Подключиться</a>
         <div class="empty-block"></div>
         <div class="dropdown">
             <button class="tariff-button" id="dropdownButton">&#8595; Скачать приложение</button>
@@ -114,7 +114,7 @@
             var selectedServer = localStorage.getItem('selectedServer');
             var accessUrl = localStorage.getItem('accessUrl');
             var serverNameElement = document.getElementById('serverName');
-            var connectButtonElement = document.getElementById('connectButton');
+            var connectLinkElement = document.getElementById('connectLink');
             var serverLinkElement = document.getElementById('serverLink');
 
             if (selectedServer) {
@@ -125,10 +125,13 @@
 
             if (accessUrl) {
                 serverLinkElement.href = accessUrl;
-                connectButtonElement.textContent = accessUrl;
+                connectLinkElement.textContent = accessUrl;
+                connectLinkElement.href = accessUrl;
             } else {
                 serverLinkElement.textContent = 'Ссылка не найдена';
                 serverLinkElement.href = '#';
+                connectLinkElement.textContent = 'Ссылка не найдена';
+                connectLinkElement.href = '#';
             }
 
             // Закрытие модального окна
@@ -142,15 +145,6 @@
                     modal.style.display = 'none';
                 }
             }
-
-            // Добавляем обработчик события для кнопки "Подключиться"
-            connectButtonElement.addEventListener('click', function() {
-                if (accessUrl) {
-                    window.open(accessUrl, '_blank');
-                } else {
-                    alert('Ссылка не найдена');
-                }
-            });
         });
 
         // Добавляем обработчик события клика вне выпадающего меню для его закрытия
