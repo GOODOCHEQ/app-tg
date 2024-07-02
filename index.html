@@ -63,12 +63,12 @@
       .then(response => response.json())
       .then(data => {
         console.log('Ответ сервера:', data);
-        if (data.exists) {
-          if (data.hasKey) {
-            window.location.href = 'user.html';
-          } else {
-            console.log('User ID найден, но ключ отсутствует.');
-          }
+        localStorage.setItem('user_exists', data.exists);
+        localStorage.setItem('user_has_key', data.hasKey);
+        if (data.exists && data.hasKey) {
+          window.location.href = 'user.html';
+        } else if (data.exists) {
+          console.log('User ID найден, но ключ отсутствует.');
         } else {
           console.log('User ID не найден в базе данных.');
         }
