@@ -73,11 +73,11 @@
       console.log('Отправка данных на сервер:', vpnData);
 
       // Отправка данных на сервер Flask
-        fetch('https://ghostguardvpn.online/submit', {  // Замените на ваш домен
+      fetch('https://ghostguardvpn.online/submit', {  // Замените на ваш домен
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
-           credentials: 'include'  // Добавьте это, если вы используете cookies
+          'Content-Type': 'application/json',
+          'credentials': 'include'  // Добавьте это, если вы используете cookies
         },
         body: JSON.stringify(vpnData)
       })
