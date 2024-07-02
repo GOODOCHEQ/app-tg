@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Success</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -72,30 +73,22 @@
       console.log('Кнопка "Получить доступ" нажата');
       console.log('Отправка данных на сервер:', vpnData);
 
-      // Отправка данных на сервер Flask
-      fetch('https://ghostguardvpn.online/submit', {  // Замените на ваш домен
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'credentials': 'include'  // Добавьте это, если вы используете cookies
+      // Отправка данных на сервер Flask с использованием jQuery AJAX
+      $.ajax({
+        url: 'https://ghostguardvpn.online/submit',  // Замените на ваш домен
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(vpnData),
+        success: function(response) {
+          console.log('Ответ сервера:', response);
+          if (response.key) {
+            localStorage.setItem('accessUrl', response.key);
+            window.location.href = 'user.html';
+          }
         },
-        body: JSON.stringify(vpnData)
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Сетевая ошибка.');
+        error: function(xhr, status, error) {
+          console.error('Ошибка:', error);
         }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Ответ сервера:', data);
-        if (data.key) {
-          localStorage.setItem('accessUrl', data.key);
-          window.location.href = 'user.html';
-        }
-      })
-      .catch(error => {
-        console.error('Ошибка:', error);
       });
     });
   };
