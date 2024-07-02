@@ -40,21 +40,21 @@
             cursor: pointer;
         }
         .tariff-button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            margin: 5px;
-            width: calc(100% - 30px);
-            box-sizing: border-box;
-        }
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 5px 15px; /* Делаем отступ слева и справа равным */
+    width: calc(100% - 30px); /* Уменьшаем ширину на 30px */
+    box-sizing: border-box;
+}
         .tariff-button:hover {
             background-color: #0056b3;
         }
@@ -162,12 +162,6 @@
                 console.log("Access URL found: " + accessUrl);
                 serverLinkElement.href = accessUrl;
                 connectLinkElement.href = accessUrl;
-
-                // Добавим проверку открытия ссылки
-                connectLinkElement.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    window.open(accessUrl, '_blank');
-                });
             } else {
                 console.log("Access URL not found");
                 serverLinkElement.textContent = 'Ссылка не найдена';
