@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebApp</title>
     <link rel="stylesheet" href="user.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <style>
         .modal {
             display: none;
@@ -50,7 +51,7 @@
         </div>
     </div>
     <div class="gif">
-        <img src="usergif.gif" alt="GIF">
+        <img src="img/emojibest_com_AnimatedSticker.gif" alt="GIF">
     </div>
     <div class="checkout__size">
         <h1>Готово к подключению</h1>
@@ -96,22 +97,23 @@
             <a id="serverLink" href="#" target="_blank">Подключить сервер</a>
         </div>
     </div>
-
-    <script>
+<script>
+        // Открывает или закрывает выпадающее меню
         function toggleDropdown() {
             var dropdownContent = document.querySelector('.dropdown-content');
             dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
         }
 
+        // При загрузке документа добавляем слушатель события клика на кнопку "Скачать приложение"
         document.addEventListener('DOMContentLoaded', function() {
             var dropdownButton = document.getElementById('dropdownButton');
             dropdownButton.addEventListener('click', toggleDropdown);
 
+            // Отображаем данные сервера из localStorage или сообщение об отсутствии данных
             var selectedServer = localStorage.getItem('selectedServer');
-            var userId = localStorage.getItem('user_id');
+            var accessUrl = localStorage.getItem('accessUrl');
             var serverNameElement = document.getElementById('serverName');
             var serverLinkElement = document.getElementById('serverLink');
-            var accessUrl = '';
 
             if (selectedServer) {
                 serverNameElement.textContent = 'Selected Server: ' + selectedServer;
@@ -119,46 +121,14 @@
                 serverNameElement.textContent = 'Selected Server: Данные не найдены';
             }
 
-            if (userId) {
-                fetch('http://192.168.0.27:5000/get_key', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ userId: userId })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.key) {
-                        accessUrl = data.key;
-                        serverLinkElement.href = accessUrl;
-                    } else {
-                        serverLinkElement.textContent = 'Ссылка не найдена';
-                        serverLinkElement.href = '#';
-                    }
-                })
-                .catch(error => {
-                    console.error('Ошибка:', error);
-                    serverLinkElement.textContent = 'Ошибка при получении ссылки';
-                    serverLinkElement.href = '#';
-                });
+            if (accessUrl) {
+                serverLinkElement.href = accessUrl;
             } else {
-                console.error('user_id не найден в localStorage');
-                accessUrl = localStorage.getItem('accessUrl');
-                if (accessUrl) {
-                    serverLinkElement.href = accessUrl;
-                    console.log('Ключ взят из localStorage');
-                } else {
-                    serverLinkElement.textContent = 'Ссылка не найдена';
-                    serverLinkElement.href = '#';
-                }
+                serverLinkElement.textContent = 'Ссылка не найдена';
+                serverLinkElement.href = '#';
             }
 
+            // Закрытие модального окна
             var modal = document.getElementById('myModal');
             var closeBtn = document.getElementsByClassName('close')[0];
             closeBtn.onclick = function() {
@@ -170,6 +140,7 @@
                 }
             }
 
+            // Добавляем обработчик события для кнопки "Подключиться"
             document.getElementById('connectButton').addEventListener('click', function() {
                 if (accessUrl) {
                     window.location.href = accessUrl;
@@ -179,6 +150,7 @@
             });
         });
 
+        // Добавляем обработчик события клика вне выпадающего меню для его закрытия
         document.addEventListener('click', function(event) {
             var dropdownContent = document.querySelector('.dropdown-content');
             var dropdownButton = document.getElementById('dropdownButton');
