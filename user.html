@@ -146,7 +146,7 @@
             // Добавляем обработчик события для кнопки "Подключиться"
             connectButtonElement.addEventListener('click', function() {
                 if (accessUrl) {
-                    window.location.href = accessUrl;
+                    window.open(accessUrl, '_blank');
                 } else {
                     alert('Ссылка не найдена');
                 }
