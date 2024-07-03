@@ -236,7 +236,18 @@
         });
 
         sendDataBtn.addEventListener('click', () => {
-            window.location.href = 'good.html';
+            const selectedPlan = localStorage.getItem('selectedPlan');
+            if (selectedPlan === '1 месяц') {
+                window.location.href = 'pay1m.html';
+            } else if (selectedPlan === '3 месяца') {
+                window.location.href = 'pay3m.html';
+            } else if (selectedPlan === '6 месяцев') {
+                window.location.href = 'pay6m.html';
+            } else if (selectedPlan === '1 год') {
+                window.location.href = 'pay12m.html';
+            } else {
+                window.location.href = 'good.html';
+            }
         });
     </script>
 </body>
