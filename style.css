@@ -348,6 +348,32 @@ body {
   background-color: #0056b3;
 }
 
+/* Стили для кнопки Контакты */
+.contact-button-container {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
+}
+
+.contact-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.contact-button:hover {
+  background-color: #0056b3;
+}
+
 /* Стили для модального окна */
 .modal {
   display: none; 
@@ -386,8 +412,3 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
-
-
-
-
-
