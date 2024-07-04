@@ -355,6 +355,14 @@ body {
   margin-right: auto;
   width: 100%;
   text-align: center;
+  display: none; /* Скрываем кнопку по умолчанию */
+}
+
+/* Показываем кнопку только на экранах от 1024px */
+@media (min-width: 1024px) {
+  .contact-button-container {
+    display: block;
+  }
 }
 
 .contact-button {
