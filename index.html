@@ -40,19 +40,31 @@
   <button id="serverBtn" class="tariff-button">Перейти к выбору тарифа</button>
 </div>
 
+<!-- Контакты кнопка -->
+<div class="contact-button-container">
+  <button id="contactBtn" class="contact-button">Контакты</button>
+</div>
+
+<!-- Модальное окно -->
+<div id="contactModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Контакты</h2>
+    <p>Юридическое название компании: ИП "Клинк Михаил Дмитриевич"</p>
+    <p>ИНН: 212904094921</p>
+    <p>ОГРНИП: 323210000025120</p>
+    <p>Адрес: г. Чебоксары, ул. К.Маркса, д. 31</p>
+  </div>
+</div>
+
 <script>
   window.onload = function() {
-    // Получаем user_id из URL
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('user_id');
-    console.log('URL userId:', userId);
 
-    // Сохраняем user_id в localStorage
     if (userId) {
       localStorage.setItem('user_id', userId);
-      console.log('UserId сохранен в localStorage:', userId);
 
-      // Отправляем запрос на сервер для проверки user_id
       fetch('https://ghostguardvpn.online:5001/check_user', {
         method: 'POST',
         headers: {
@@ -62,13 +74,12 @@
       })
       .then(response => response.json())
       .then(data => {
-        console.log('Ответ сервера:', data);
-        localStorage.setItem('user_exists', data.exists);
-        localStorage.setItem('user_has_key', data.hasKey);
-        if (data.exists && data.hasKey) {
-          window.location.href = 'user.html';
-        } else if (data.exists) {
-          console.log('User ID найден, но ключ отсутствует.');
+        if (data.exists) {
+          if (data.hasKey) {
+            window.location.href = 'user.html';
+          } else {
+            console.log('User ID найден, но ключ отсутствует.');
+          }
         } else {
           console.log('User ID не найден в базе данных.');
         }
@@ -82,27 +93,37 @@
   };
 
   document.getElementById("serverBtn").addEventListener("click", function() {
-    // Получаем выбранный сервер
     var selectedServer = document.getElementById("serverSelect").value;
-
-    // Сохраняем выбранный сервер в localStorage
     localStorage.setItem("selectedServer", selectedServer);
-
-    // Перенаправляем пользователя на страницу pay.html
     window.location.href = "pay.html";
   });
 
   document.addEventListener('click', function(event) {
-    var dropdown = document.querySelector('.dropdown'); // Обращаемся к классу, не идентификатору
-    if (dropdown) { // Проверяем, существует ли элемент
-      var dropdownContent = document.getElementById('dropdownContent');
-
-      // Если клик был вне выпадающего окна, то закрываем его
-      if (!dropdown.contains(event.target) && dropdownContent) {
-        dropdownContent.style.display = 'none';
-      }
+    var dropdown = document.querySelector('.dropdown');
+    var dropdownContent = document.getElementById('dropdownContent');
+    if (!dropdown.contains(event.target)) {
+      dropdownContent.style.display = 'none';
     }
   });
+
+  // Модальное окно
+  var modal = document.getElementById("contactModal");
+  var btn = document.getElementById("contactBtn");
+  var span = document.getElementsByClassName("close")[0];
+
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
 </script>
 </body>
 </html>
